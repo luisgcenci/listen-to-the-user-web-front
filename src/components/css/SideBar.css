@@ -1,0 +1,34 @@
+.NavImage{
+  width: 50px;
+  height: 50px;
+  border-radius: 40px;
+}
+
+.NavHeader{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0px;
+  padding-bottom: 20px;
+}
+
+.RestaurantInfo{
+  width: 100%;
+}
+
+.RestaurantName{
+  margin:0px;
+  padding: 10px;
+}
+
+.RestaurantDescription{
+  margin: 0px;
+}
+
+.Switch{
+  padding: 10px;
+}
+
+.NavImage{
+  margin-top:40px;
+}
