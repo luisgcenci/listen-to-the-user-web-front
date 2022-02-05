@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './css/Home.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
@@ -10,52 +10,75 @@ const api = axios.create({
   baseURL: `http://localhost:5000/`
 })
 
-const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-  datasets: [
-    {
-      label: '# of Votes',
-      data: [12, 19, 3, 5, 2, 3],
-      backgroundColor: [
-        'rgba(255, 99, 132, 0.5)',
-        'rgba(54, 162, 235, 0.5)',
-        'rgba(255, 206, 86, 0.5)',
-        'rgba(75, 192, 192, 0.5)',
-        'rgba(153, 102, 255, 0.5)',
-        'rgba(255, 159, 64, 0.5)',
-      ],
-      borderColor: [
-        'rgba(255, 99, 132, 1)',
-        'rgba(54, 162, 235, 1)',
-        'rgba(255, 206, 86, 1)',
-        'rgba(75, 192, 192, 1)',
-        'rgba(153, 102, 255, 1)',
-        'rgba(255, 159, 64, 1)',
-      ],
-      borderWidth: 1,
-    },
-  ],
-};
-
 const Home = () => {
   const [feedbackChannel, setFeedbackChannel] = useState(null);
+  const [deliveryCount, setDeliveryCount] = useState(0);
+  const [pickUpCount, setPickUpCount] = useState(0);
+  const [dineInCount, setDineInCount] = useState(0);
+  
   const handleOptionChange = (e) => {
     setFeedbackChannel(e.target.name);
   };
+  
+  api.get('/services')
+  .then((response) => {
+
+    const services = response.data;
+    let delivery = 0;
+    let pickup = 0
+    let dinein = 0;
+
+    Object.values(services).map( (v) => {
+      switch(v.service) {
+        case 'delivery':
+          delivery++;
+        case 'retirada':
+          pickup++;
+        case 'salao':
+          dinein++;
+      }
+    })
+
+    setDeliveryCount(delivery);
+    setPickUpCount(pickup);
+    setDineInCount(dinein);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
 
   const addFeedback = (e) => {
 
-    e.preventDefault();
-
-    api.post('add/:channel  ', { params: {
-      channel: "hello",
+    api.post('/add', null, { params: {
+      service: feedbackChannel,
     }})
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  };
+
+  const data = {
+    labels: ['Delivery', 'Retirada', 'Salão'],
+    datasets: [
+      {
+        label: '# of Votes',
+        data: [deliveryCount, pickUpCount, dineInCount  ],
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.5)',
+          'rgba(54, 162, 235, 0.5)',
+          'rgba(255, 206, 86, 0.5)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
   };
 
   return (
