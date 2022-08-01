@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactSwitch from 'react-switch';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { updateNavBarCollapseStatus } from '../features/navSlice';
+import { updateNavBarCollapseStatus } from '../store/features/navSlice';
 
 const Switch = () => {
   const navOpen = useAppSelector((state) => state.navBar.navOpen);

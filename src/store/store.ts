@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import NavSlice from '../features/navSlice';
+import emailAuthSlice from 'store/features/emailAuthSlice';
+import NavSlice from './features/navSlice';
 
 export const store = configureStore({
   reducer: {
     navBar: NavSlice,
+    emailAuth: emailAuthSlice
   },
 });
 

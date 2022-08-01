@@ -2,13 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './css/Home.css';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
+const axios = require('axios');
 
 ChartJS.register(ArcElement, Tooltip, Legend);
-
-const axios = require('axios');
-const api = axios.create({
-  baseURL: `http://localhost:5000/`
-})
 
 const Home = () => {
   const [feedbackChannel, setFeedbackChannel] = useState(null);
@@ -20,7 +16,7 @@ const Home = () => {
     setFeedbackChannel(e.target.name);
   };
   
-  api.get('/services')
+  axios.get('http://localhost:5000/getfeedbacks')
   .then((response) => {
 
     const services = response.data;
@@ -49,9 +45,9 @@ const Home = () => {
 
   const addFeedback = (e) => {
 
-    api.post('/add', null, { params: {
+    axios.post('http://localhost:5000/addfeedback', {
       service: feedbackChannel,
-    }})
+    })
     .then((response) => {
       console.log(response);
     })

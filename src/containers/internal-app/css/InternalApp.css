@@ -1,0 +1,9 @@
+.InternalApp{
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.InternalAppRoutes{
+  flex: 1;
+}

@@ -1,0 +1,10 @@
+.Login{
+    display:flex;
+    flex-direction: column;
+}
+
+.Login div{
+    display: flex;
+    flex-direction:column;
+    padding: 20px 20px 20px 20px;
+}
